@@ -1,26 +1,25 @@
 const mongoose = require("mongoose") ;
 const { Schema } = mongoose;
+const bcrypt = require("bcryptjs");
 
-const userShema = new Schema({
+const userSchema= new Schema({
     name:{
         type:String,
         required:true,
-
     },
     password:{
         type:String,
         required:true,
         minLength:8,
         maxLength:200,
-        match:"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,50}$",
-
+        match:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,50}$/,
     },
     email:{
         type:String,
         required:true,
         unique:true,
         lowerCase:true,
-        match:" /\S+@\S+\.\S+/"
+        match:/\S+@\S+\.\S+/
 
     },
     createdAt:{
@@ -37,9 +36,19 @@ const userShema = new Schema({
     userType:{
         type:String,
         required:true,
-
+        default: "Customer"
     },
     userStatus:{
-
+        type:String,
+        required:true,
+        default: "approved"
     }
-}) 
+}) ;
+
+userSchema.pre('save',function(next){
+    let hashedPassword = bcrypt.hashSync(this.password,5);
+    this.password = hashedPassword;
+    next();
+})
+const userModel = mongoose.model("User",userSchema)
+module.exports = userModel;
