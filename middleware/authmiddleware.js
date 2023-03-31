@@ -20,4 +20,14 @@ exports.isAuthenticated = async(req,res,next)=>{
 req.user = user;
 next();  
 }
+
+exports.isAdmin = async(req,res,next) =>{
+    if(!req.user) {
+        return res.status(401).send({Message:"User not found"})
+    }
+    if(req.user.userType !== "Admin"){
+        return res.status(401).send({Message:"User doesn't have required permission"})
+    }
+    next();
+}
  

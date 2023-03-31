@@ -4,11 +4,9 @@ const User = require('../models/user.model')
 const getUserByEmail = async(emailData) =>{
    try{
     let user = await User.findOne({email:emailData});
-    console.log(user)
     return user
    }catch(err){
-        console.log(err);
-        return err;
+      return err;
    }
 }
 
@@ -17,4 +15,15 @@ const getAllUser = async()=>{
     
     return users;
 }
-module.exports = {getUserByEmail,getAllUser}
+
+ const getUserById = async(idSent)=>{
+    try{
+        let user = await User.findOne({_id:idSent})
+    return user
+    }catch(err){
+        console.log(err);
+        return err
+    }
+ }
+
+module.exports = {getUserByEmail,getAllUser,getUserById}
