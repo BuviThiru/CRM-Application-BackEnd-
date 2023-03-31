@@ -1,7 +1,9 @@
 const { response } = require('express');
 const User = require('../models/user.model');
-const bcrypt = require('bcryptjs')
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { getUserByEmail } = require('./user.service');
+require('dotenv').config();
 
 
 
@@ -29,18 +31,34 @@ try {
 }
 
 const signIn = async(data)=>{
-    let response = {};
+    let response ={};
     let userFromDb = await User.findOne({email : {$eq: data.email}}) 
     if(!userFromDb) {response.error = "Invalid Email Id"}
     else{
         let hashPsw = bcrypt.compareSync(data.password,userFromDb.password)
-    if(!hashPsw){response.error = "Password Doesn't Match"}
+    if(!hashPsw){response.error = {Error: "Password Doesn't Match"} }
     else {
-        response.data = "User authenticated"  }
+        const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY)
+     response.data = {
+        Result : "User authenticated",
+        token: token
+     }}
     }  
    
  return response;
 } 
 
-module.exports = {signUp,signIn}
+const verifytoken = (tokenSent)=>{
+    try{
+        const isverified = jwt.verify(tokenSent,process.env.JWT_SECTRETKEY)
+        return isverified;
+
+    }catch(err){
+        console.log(err)
+        return ;
+    }
+}
+
+
+module.exports = {signUp,signIn,verifytoken}
 

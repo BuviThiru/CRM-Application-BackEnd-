@@ -1,4 +1,4 @@
-const {signUp,signIn} = require("../services/auth.service")
+const {signUp,signIn,isAuthenticated} = require("../services/auth.service")
 
 
 exports.signUp =  async(req,res)=>{
@@ -31,6 +31,7 @@ exports.signIn=async(req,res)=>{
    }else{
     statusCode = 201;
     result = data.data;
+  
    }  
     res.status(statusCode).json({
         status :statusCode,    
@@ -38,3 +39,4 @@ exports.signIn=async(req,res)=>{
     })
 
 }
+

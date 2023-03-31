@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
-const PORT = require("./config/server.config")
-const mongoDBURL = require('./config/db.config')
+const PORT = require("./config/server.config");
+const mongoDBURL = require('./config/db.config');
 app.use(bodyParser.json());
 
-const authRoutes = require('./routes/auth.routes')
+const authRoutes = require('./routes/auth.routes');
 authRoutes(app);
+const userRoutes = require('./routes/user.routes');
+userRoutes(app);
 
 
 app.listen(PORT, ()=>{
