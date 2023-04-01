@@ -19,8 +19,9 @@ try {
         userType : data.userType,
         userStatus:data.userStatus,
     }
- 
+    console.log(newUser)
     const createUser = await User.create(newUser);
+    console.log(createUser)
     response.user = createUser; 
     return response;
  

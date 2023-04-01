@@ -26,17 +26,16 @@ const userSchema= new Schema({
         type:Date,
         default:Date.now, //no need of calling..as default will call the function mapped to it
         immutable:true,
-
     },
     updatedAt:{
         type:Date,
         default:Date.now,
-
     },
     userType:{
         type:String,
         required:true,
-        default: "Customer"
+        default: "Customer",
+        enum: ["Customer","Engineer","Admin"]
     },
     userStatus:{
         type:String,

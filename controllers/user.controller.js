@@ -1,4 +1,4 @@
-const {getAllUser,getUserByEmail,getUserById} = require('../services/user.service')
+const {getAllUser,getUserByEmail,getUserById,updateUserType} = require('../services/user.service')
 
 exports.allUsers = async(req,res)=>{
     let response = await getAllUser()
@@ -22,3 +22,12 @@ exports.getUserById = async(req,res)=>{
          Message : response
     })
 }
+
+
+exports.updateUserType = async(req,res)=>{
+    console.log(req.body)
+    const updatedUser = await updateUserType(req.body)
+    res.status(201).send({
+        message : updatedUser
+    })
+} 
