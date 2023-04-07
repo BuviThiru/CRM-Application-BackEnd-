@@ -10,6 +10,8 @@ const authRoutes = require('./routes/auth.routes');
 authRoutes(app);
 const userRoutes = require('./routes/user.routes');
 userRoutes(app);
+const ticketRoutes = require('./routes/tickets.routes');
+ticketRoutes(app)
 
 
 app.listen(PORT, ()=>{

@@ -41,7 +41,16 @@ const userSchema= new Schema({
         type:String,
         required:true,
         default: "approved"
-    }
+    },
+    ticketsCreated:{
+        type :[mongoose.Types.ObjectId],
+        ref: "Ticket"
+    },
+    ticketsAssigned:{
+        type :[mongoose.Types.ObjectId],
+        ref: "Ticket"
+    },
+
 }) ;
 
 userSchema.pre('save',function(next){

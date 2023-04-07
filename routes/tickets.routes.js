@@ -5,3 +5,4 @@ const routes = (app)=>{
   app.post("/crmapp/api/v1/tickets/createticket", isAuthenticated , createTicket)
 }
  
+module.exports = routes;
