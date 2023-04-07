@@ -19,9 +19,7 @@ try {
         userType : data.userType,
         userStatus:data.userStatus,
     }
-    console.log(newUser)
     const createUser = await User.create(newUser);
-    console.log(createUser)
     response.user = createUser; 
     return response;
  
@@ -45,7 +43,6 @@ const signIn = async(data)=>{
         token: token
      }}
     }  
-   
  return response;
 } 
 
@@ -59,7 +56,5 @@ const verifytoken = (tokenSent)=>{
         return ;
     }
 }
-
-
 module.exports = {signUp,signIn,verifytoken}
 

@@ -25,7 +25,6 @@ exports.getUserById = async(req,res)=>{
 
 
 exports.updateUserType = async(req,res)=>{
-    console.log(req.body)
     const updatedUser = await updateUserType(req.body)
     res.status(201).send({
         message : updatedUser

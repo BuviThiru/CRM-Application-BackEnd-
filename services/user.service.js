@@ -1,4 +1,5 @@
 const User = require('../models/user.model')
+const userType = require('../constants/userType')
 
 
 const getUserByEmail = async(emailData) =>{
@@ -27,12 +28,20 @@ const getAllUser = async()=>{
  }
 
  const updateUserType = async(data)=>{
-    try{
-       
+            try{     
+                let res  
+        let useTypeArray = Object.values(userType.userTypes)
+        if(useTypeArray.indexOf(data.userType)==-1){
+         res = "userType is not valid"
+        }else {
+            
         await User.findOneAndUpdate({email:data.email},{userType:data.userType})
-        const user = await User.findOne({email:data.email})
-     
-        return user ;
+        const user = await User.findOne({email:data.email})     
+        res = user;
+
+        }
+       
+       return res
        
     }catch(err){
         console.log(err);
