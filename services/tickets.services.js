@@ -54,3 +54,45 @@ exports.createTicket = async(data,user)=>{
      }
 
 }
+
+exports.getTicketByGivenId = async(idSent) =>{
+  try{
+    const ticket = await Ticket.findOne({_id:idSent.id});
+    console.log(">>>>>>>>>>>>>>>>>>>>TICKET",ticket)
+    if(!ticket){
+        return {
+            Error : "Ticket not found"
+        }
+    }else{
+        return ticket
+    }
+  }catch(err){
+    console.log(err);
+    return err
+  }
+}
+
+exports.getAllTicketsSer = async(req,res)=>{
+    try{
+        let tickets = await Ticket.find();
+        if(!tickets || tickets.error){
+            return {
+                Error : tickets.error,
+            }
+        }else return tickets
+    }catch(err){
+        console.log(err);
+        return err
+      }
+}
+
+exports.getTicketsbyStatusSer = async(statusSent) =>{
+   try{
+    const tickets = await Ticket.find({status:statusSent.status})
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Ser tickets",tickets)
+    return tickets ;
+   }catch(err){
+    console.log(err);
+    return err.message;
+   }
+}
