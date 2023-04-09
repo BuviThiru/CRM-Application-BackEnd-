@@ -1,4 +1,4 @@
-const { createTicket, getTicketByGivenId, getAllTicketsSer, getTicketsbyStatusSer } = require('../services/tickets.services');
+const { createTicket, getTicketByGivenId, getAllTicketsSer, getTicketsbyStatusSer,getTicketsAssignedToUserSer,getTicketsCreatedByUserSer} = require('../services/tickets.services');
 
 
 exports.createTicket = async (req, res) => {//req.body has ticket's data, req.user
@@ -78,6 +78,49 @@ exports.getTicketsbyStatus = async (req, res) => {
         console.log(err);
         return res.status(401).send({
             Error : err.Message,
+        })
+    }
+}
+
+exports.getTicketsAssignedToUser = async(req,res)=>{
+    try{
+      const tickets = await getTicketsAssignedToUserSer(req.user)
+      if(tickets.error){
+        return res.status(500).send({
+            Result: tickets.error
+        })
+      }else{
+        return res.status(200).send({
+            Result : tickets,
+        })  } 
+
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send({
+            Result: err.message
+        })
+    }
+}
+
+
+exports.getTicketsCreatedByUser = async(req,res)=>{
+    try{
+      const tickets = await getTicketsCreatedByUserSer(req.user)
+      if(tickets.error){
+        return res.status(500).send({
+            Result: tickets.error
+        })
+      }else{
+        return res.status(200).send({
+            Result : tickets,
+        })  } 
+
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).send({
+            Result: err.message
         })
     }
 }

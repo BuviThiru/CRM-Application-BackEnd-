@@ -109,4 +109,6 @@ const isValidUser = async(emailSent)=>{
         return err.message;
        }
  }
+
+ 
 module.exports = {getUserByEmail,getAllUser,getUserById,updateUserType,isValidUser, updatedTicketCreatedArray,updateAssignedToArray}
