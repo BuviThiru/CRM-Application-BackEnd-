@@ -122,3 +122,53 @@ exports.getTicketsCreatedByUserSer = async (userInfo) => {
         return err.message
     }
 }
+
+exports.updateTicketById = async (sentId, updateInfo, userInfo) => {
+    try {
+        const validateTicket = await this.getTicketByGivenId(sentId)//first check the ticket id is valid
+        if (!validateTicket || validateTicket.error) {
+            return {
+                error: "Ticket Id is invalid",
+            }
+        }
+
+        if (updateInfo.assignee && updateInfo.assignee != userInfo.email) {
+          
+            return {
+                error: "Invalid assignee"
+            }
+        }
+
+        if (updateInfo.assignedTo && await isValidUser(updateInfo.assignedTo)) { //make user as asingnee
+            updateInfo.assignee = userInfo.email
+        } else {
+            return {
+                error: "Invalid assigned to email"
+            }
+        }
+
+        //remove the id from previous assigned to
+
+        await User.findOneAndUpdate({ email: validateTicket.assignedTo },
+            {
+                $pull: {
+                    ticketsAssigned: validateTicket._id, //here the id will be exact match sa we stored
+                }
+            })
+
+            await User.findOneAndUpdate({ email: updateInfo.assignedTo }, { //update user for assigned to
+                $push: {
+                    ticketsAssigned: validateTicket._id
+                }
+            })
+        const response = await Ticket.findOneAndUpdate({
+            _id: sentId.id
+        }, updateInfo, { new: true } //new true returns updated doc
+        )
+
+        return response
+    }
+    catch (err) {
+        return err.message
+    }
+}
