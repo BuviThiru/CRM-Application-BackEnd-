@@ -11,11 +11,11 @@ const signUp = async(data)=>{
 
 try {
    let response = {}
+   
     const newUser = {
         name : data.name,
         email : data.email,
         password : data.password,
-        name : data.name,
         userType : data.userType,
         userStatus:data.userStatus,
     }

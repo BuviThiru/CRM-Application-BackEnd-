@@ -40,6 +40,7 @@ const isValidUser = async(emailSent)=>{
  }
 
  const updateUserType = async(data)=>{
+   
             try{     
                 let res  
         let useTypeArray = Object.values(userType.userTypes)
@@ -48,7 +49,8 @@ const isValidUser = async(emailSent)=>{
         }else {
             
         await User.findOneAndUpdate({email:data.email},{userType:data.userType})
-        const user = await User.findOne({email:data.email})     
+        const user = await User.findOne({email:data.email}) 
+        
         res = user;
 
         }
