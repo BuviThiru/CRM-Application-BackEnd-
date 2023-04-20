@@ -1,7 +1,7 @@
 const User = require('../models/user.model')
 const Ticket = require('../models/ticket.model')
 const { updatedTicketCreatedArray, updateAssignedToArray, isValidUser } = require('../services/user.service')
-
+const {sendNotificationMail} = require('../utils/notificationService.connect')
 exports.createTicket = async (data, user) => {
     try {
 
@@ -39,9 +39,17 @@ exports.createTicket = async (data, user) => {
                         error: assignedToInUser.error
                     }
                 }
-            }
+            }         
+            const sendMail = {
+                subject: "New Ticket Created : " + ticket.title,
+                content: "This is the description of the ticket created : " + ticket.description,
+                recipientEmails:[ticket.createdBy,ticket.assignedTo] ,
+                requestor: ticket.createdBy,
+                ticketId:ticket._id
+            } 
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",sendMail)
+            sendNotificationMail(sendMail.subject,sendMail.content,sendMail.recipientEmails,sendMail.requestor,sendMail.ticketId)
             return ticket;
-
         } else {
             return {
                 error: "Server error occured"
@@ -131,14 +139,12 @@ exports.updateTicketById = async (sentId, updateInfo, userInfo) => {
                 error: "Ticket Id is invalid",
             }
         }
-
         if (updateInfo.assignee && updateInfo.assignee != userInfo.email) {
           
             return {
                 error: "Invalid assignee"
             }
         }
-
         if (updateInfo.assignedTo && await isValidUser(updateInfo.assignedTo)) { //make user as asingnee
             updateInfo.assignee = userInfo.email
         } else {
@@ -165,7 +171,15 @@ exports.updateTicketById = async (sentId, updateInfo, userInfo) => {
             _id: sentId.id
         }, updateInfo, { new: true } //new true returns updated doc
         )
-
+        const sendMail = {
+            subject: "New Ticket Created : " + response.title,
+            content: "This is the description of the ticket created : " + response.description,
+            recipientEmails:[response.createdBy,response.assignedTo] ,
+            requestor: response.createdBy,
+            ticketId:response._id
+        } 
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",sendMail)
+        sendNotificationMail(sendMail.subject,sendMail.content,sendMail.recipientEmails,sendMail.requestor,sendMail.ticketId)
         return response
     }
     catch (err) {
