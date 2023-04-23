@@ -47,7 +47,7 @@ exports.createTicket = async (data, user) => {
                 requestor: ticket.createdBy,
                 ticketId:ticket._id
             } 
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",sendMail)
+           
             sendNotificationMail(sendMail.subject,sendMail.content,sendMail.recipientEmails,sendMail.requestor,sendMail.ticketId)
             return ticket;
         } else {
@@ -66,7 +66,7 @@ exports.createTicket = async (data, user) => {
 exports.getTicketByGivenId = async (idSent) => {
     try {
         const ticket = await Ticket.findOne({ _id: idSent.id });
-        console.log(">>>>>>>>>>>>>>>>>>>>TICKET", ticket)
+      
         if (!ticket) {
             return {
                 Error: "Ticket not found"
@@ -97,8 +97,7 @@ exports.getAllTicketsSer = async (req, res) => {
 exports.getTicketsbyStatusSer = async (statusSent) => {
     try {
         const tickets = await Ticket.find({ status: statusSent.status })
-        // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Ser tickets",tickets)
-        return tickets;
+            return tickets;
     } catch (err) {
         console.log(err);
         return err.message;
@@ -178,7 +177,7 @@ exports.updateTicketById = async (sentId, updateInfo, userInfo) => {
             requestor: response.createdBy,
             ticketId:response._id
         } 
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",sendMail)
+      
         sendNotificationMail(sendMail.subject,sendMail.content,sendMail.recipientEmails,sendMail.requestor,sendMail.ticketId)
         return response
     }
