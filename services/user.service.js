@@ -6,7 +6,7 @@ const Ticket = require('../models/ticket.model')
 const getUserByEmail = async(emailData) =>{
    try{
     let user = await User.findOne({email:emailData});
-    console.log(">>>>>>>>>>>>>USER",user)
+
     return user
    }catch(err){
       return err;
@@ -22,7 +22,7 @@ const isValidUser = async(emailSent)=>{
     console.log("EmailSent",emailSent)
     try{
         const user = await User.findOne({email:emailSent});
-        console.log("______________________",user)
+      
         if(user) return true
         else false
     }catch(err){
