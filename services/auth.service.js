@@ -24,12 +24,12 @@ try {
     return response;
  
 } catch (err) {
-    response.error = err.message;
-    return response;    
+ console.log(err);    
 }
 }
 
 const signIn = async(data)=>{
+try{
     let response ={};
     let userFromDb = await User.findOne({email : {$eq: data.email}}) 
     if(!userFromDb) {response.error = "Invalid Email Id"}
@@ -44,6 +44,10 @@ const signIn = async(data)=>{
      }}
     }  
  return response;
+}catch(err){
+    console.log(err)
+    
+}
 } 
 
 const verifytoken = (tokenSent)=>{
@@ -53,7 +57,7 @@ const verifytoken = (tokenSent)=>{
 
     }catch(err){
         console.log(err)
-        return ;
+   
     }
 }
 module.exports = {signUp,signIn,verifytoken}

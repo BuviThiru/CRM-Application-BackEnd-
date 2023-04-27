@@ -16,11 +16,9 @@ ticketRoutes(app)
 
 app.listen(PORT, ()=>{
     console.log("Server Listening To The Port : ",PORT);
+    console.log(mongoDBURL.mongoDBURL)
     // console.log(mongoDBURL)
-    mongoose.connect(mongoDBURL).then(
-        ()=>{console.log("Connected to Mongo DB Successfully")},
-        err => {console.log("Error Occured:", RangeError)}
-    )
+    mongoose.connect(mongoDBURL.mongoDBURL)
 })
 
 
