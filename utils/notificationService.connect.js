@@ -12,7 +12,7 @@ var args = {
 	headers: { "Content-Type": "application/json" }
 };
 
-client.post("https://notification-service-ha3c.onrender.com/notificationService/api/vi/createTicNotification", args, function (data, response) {
+client.post("http://localhost:5001/notificationService/api/vi/createTicNotification", args, function (data, response) {
 	// parsed response body as js object
 	console.log(data);
 	// raw response
