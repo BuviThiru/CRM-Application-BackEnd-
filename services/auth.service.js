@@ -8,9 +8,8 @@ require('dotenv').config();
 
 
 const signUp = async(data)=>{
-
+    let response = {}
 try {
-   let response = {}
    
     const newUser = {
         name : data.name,
@@ -21,17 +20,20 @@ try {
     }
     const createUser = await User.create(newUser);
     response.user = createUser; 
+   
     return response;
  
 } catch (err) {
- console.log(err);    
+ console.log(err);  
+ response.error = err.message;
+ return response;  
 }
 }
 
 const signIn = async(data)=>{
-try{
     let response ={};
-    let userFromDb = await User.findOne({email : {$eq: data.email}}) 
+try{
+      let userFromDb = await User.findOne({email : {$eq: data.email}}) 
     if(!userFromDb) {response.error = "Invalid Email Id"}
     else{
         let hashPsw = bcrypt.compareSync(data.password,userFromDb.password)
@@ -45,8 +47,9 @@ try{
     }  
  return response;
 }catch(err){
-    console.log(err)
-    
+    console.log(err);  
+    response.error = err.message;
+    return response; 
 }
 } 
 

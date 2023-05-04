@@ -7,7 +7,7 @@ exports.signUp =  async(req,res)=>{
     console.log(data) 
    let result;
    let statusCode
-   if(data.error){
+   if(data.error || !data){
     statusCode = 403;
     result = data.error;
  
