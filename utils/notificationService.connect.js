@@ -6,6 +6,7 @@ const sendNotificationMail = (subject,content,recipientEmails,requestor,ticketId
 const reqBody = {
     subject,content,recipientEmails,requestor,ticketId
 }
+console.log(reqBody)
 var args = {
 	data: reqBody,
 	headers: { "Content-Type": "application/json" }
