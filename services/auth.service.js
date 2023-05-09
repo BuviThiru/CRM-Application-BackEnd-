@@ -37,7 +37,7 @@ try{
     if(!userFromDb) {response.error = "Invalid Email Id"}
     else{
         let hashPsw = bcrypt.compareSync(data.password,userFromDb.password)
-    if(!hashPsw){response.error = {Error: "Password Doesn't Match"} }
+    if(!hashPsw){response.error = "Password Doesn't Match"}
     else {
         const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY)
      response.data = {
