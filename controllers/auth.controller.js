@@ -31,7 +31,7 @@ exports.signIn=async(req,res)=>{
     let statusCode
     if(data.error){
      statusCode = 401;
-     result = data.error.Error;
+     result = data.error;
   
     }else{
      statusCode = 201;
