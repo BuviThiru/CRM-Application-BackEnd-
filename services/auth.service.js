@@ -42,7 +42,8 @@ try{
         const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY)
      response.data = {
         Result : "User authenticated",
-        token: token
+        token: token,
+        user : {name:userFromDb.name,email:userFromDb.email,userType:userFromDb.userType}
      }}
     }  
  return response;
