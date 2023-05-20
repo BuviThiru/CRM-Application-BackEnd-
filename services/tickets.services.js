@@ -81,16 +81,17 @@ exports.getTicketByGivenId = async (idSent) => {
 }
 
 exports.getAllTicketsSer = async (req, res) => {
+    let response ={}
     try {
         let tickets = await Ticket.find();
         if (!tickets || tickets.error) {
-            return {
-                Error: tickets.error,
-            }
-        } else return tickets
+          response.error = tickets.error
+        } else response.tickets = tickets
+        return response
     } catch (err) {
         console.log(err);
-        return err
+        response.error = err
+        return response
     }
 }
 

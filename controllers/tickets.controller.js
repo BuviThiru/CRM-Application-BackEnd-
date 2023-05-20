@@ -10,12 +10,12 @@ exports.createTicket = async (req, res) => {//req.body has ticket's data, req.us
             })
         } else {
             res.status(200).send({
-                message: response
+                message: response.tickets
             })
         }
 
     } catch (err) {
-        console.log(error)
+      
         res.status(401).send({
             message: err.message,
         })
