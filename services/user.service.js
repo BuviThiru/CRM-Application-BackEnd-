@@ -41,8 +41,8 @@ const isValidUser = async(emailSent)=>{
 
  const updateUserType = async(data)=>{
    
-            try{     
-                let res  
+        try{     
+        let res  
         let useTypeArray = Object.values(userType.userTypes)
         if(useTypeArray.indexOf(data.userType)==-1){
          res = "userType is not valid"
@@ -112,6 +112,30 @@ const isValidUser = async(emailSent)=>{
         return err.message;
        }
  }
+const updateUser = async(data)=>{
+    
+    try{     
+    
+        let newUser = {
+            name: data.name,
+            email:data.email,
+            userType :data.userType,
+            userStatus : data.userStatus
+        }            
+        await User.findOneAndUpdate({_id:data.id},{...newUser})
+     
+        
+        const user = await User.findOne({email:data.email}) 
+        console.log(user,data.id)
+        return  user; 
 
+       
+       
+    }catch(err){
+        console.log(err);
+         return err;
+    }   
+
+}
  
-module.exports = {getUserByEmail,getAllUser,getUserById,updateUserType,isValidUser, updatedTicketCreatedArray,updateAssignedToArray}
+module.exports = {updateUser,getUserByEmail,getAllUser,getUserById,updateUserType,isValidUser, updatedTicketCreatedArray,updateAssignedToArray}
