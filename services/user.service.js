@@ -131,6 +131,7 @@ const updateUser = async(data)=>{
 
        
        
+        
     }catch(err){
         console.log(err);
          return err;
