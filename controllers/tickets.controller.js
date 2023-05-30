@@ -1,4 +1,4 @@
-const { createTicket, getTicketByGivenId,updateTicketById, getAllTicketsSer, getTicketsbyStatusSer,getTicketsAssignedToUserSer,getTicketsCreatedByUserSer} = require('../services/tickets.services');
+const { createTicket, getTicketByGivenId,updateTicketById, getAllTicketsSer, getTicketsbyStatusSer,getTicketsAssignedToUserSer,getTicketsCreatedByUserSer,updateTicket} = require('../services/tickets.services');
 
 
 exports.createTicket = async (req, res) => {//req.body has ticket's data, req.user
@@ -126,9 +126,29 @@ exports.getTicketsCreatedByUser = async(req,res)=>{
 }
 
 
-exports.updateTicket = async(req,res)=>{
+exports.updateTicketById = async(req,res)=>{
     try{
         const updatedTicket = await updateTicketById(req.params,req.body,req.user)
+        if(!updatedTicket || updatedTicket.error){
+            return res.status(401).send({
+                result : updatedTicket.error
+            })
+        }
+        return res.status(200).send({
+            result: updatedTicket
+        })
+
+    }catch(err){
+        console.log(err);
+        return res.status(500).send({
+            Result : err.message
+        })
+    }
+}
+
+exports.updateTicket = async(req,res)=>{
+    try{
+        const updatedTicket = await updateTicket(req.params,req.body,req.user)
         if(!updatedTicket || updatedTicket.error){
             return res.status(401).send({
                 result : updatedTicket.error

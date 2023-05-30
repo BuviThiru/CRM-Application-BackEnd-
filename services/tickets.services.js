@@ -186,3 +186,63 @@ exports.updateTicketById = async (sentId, updateInfo, userInfo) => {
         return err.message
     }
 }
+
+exports.updateTicket= async (sentId, updateInfo, userInfo) => {
+    try {
+        const validateTicket = await this.getTicketByGivenId(sentId)//first check the ticket id is valid
+        if (!validateTicket || validateTicket.error) {
+            return {
+                error: "Ticket Id is invalid",
+            }
+        }
+        if (updateInfo.assignee && updateInfo.assignee != userInfo.email) {
+          
+            return {
+                error: "Invalid assignee"
+            }
+        }
+        if (updateInfo.assignedTo && updateInfo.assignedTo != validateTicket.assignedTo  ) {
+            if(await isValidUser(updateInfo.assignedTo)){
+                updateInfo.assignee = userInfo.email
+            } //make user as asingnee
+            else {
+                return {
+                    error: "Invalid assigned to email"
+                }
+           
+        } 
+        }
+
+        //remove the id from previous assigned to
+
+        await User.findOneAndUpdate({ email: validateTicket.assignedTo },
+            {
+                $pull: {
+                    ticketsAssigned: validateTicket._id, //here the id will be exact match sa we stored
+                }
+            })
+
+            await User.findOneAndUpdate({ email: updateInfo.assignedTo }, { //update user for assigned to
+                $push: {
+                    ticketsAssigned: validateTicket._id
+                }
+            })
+        const response = await Ticket.findOneAndUpdate({
+            _id: sentId.id
+        }, updateInfo, { new: true } //new true returns updated doc
+        )
+        const sendMail = {
+            subject: "New Ticket Created : " + response.title,
+            content: "This is the description of the ticket created : " + response.description,
+            recipientEmails:[response.createdBy,response.assignedTo] ,
+            requestor: response.createdBy,
+            ticketId:response._id
+        } 
+      
+        sendNotificationMail(sendMail.subject,sendMail.content,sendMail.recipientEmails,sendMail.requestor,sendMail.ticketId)
+        return response
+    }
+    catch (err) {
+        return err.message
+    }
+}
