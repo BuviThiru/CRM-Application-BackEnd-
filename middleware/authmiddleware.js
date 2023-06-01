@@ -36,7 +36,17 @@ exports.isAdminOrEngineer = async(req,res,next) =>{
     if(!req.user) {
         return res.status(401).send({Message:"User not found"})
     }
-    if(req.user.userType !== "Admin" || req.user.userType !== "Engineer"){
+    if(req.user.userType !== "Admin" && req.user.userType !== "Engineer"){
+        return res.status(401).send({Message:"User doesn't have required permission"})
+    }
+    next();
+}
+
+exports.isAdminOrSelf = async(req,res,next) =>{
+    if(!req.user) {
+        return res.status(401).send({Message:"User not found"})
+    }
+    if(req.user.userType !== "Admin" && req.user.userType !== "Engineer"){
         return res.status(401).send({Message:"User doesn't have required permission"})
     }
     next();
