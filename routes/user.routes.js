@@ -1,6 +1,6 @@
 
 const {allUsers} = require('../controllers/user.controller')
-const {isAuthenticated, isAdmin} = require('../middleware/authmiddleware');
+const {isAuthenticated, isAdmin,isAdminOrEngineer} = require('../middleware/authmiddleware');
 const {getUserByEmail,getUserById,updateUserType,updateUser} = require('../controllers/user.controller');
 
 

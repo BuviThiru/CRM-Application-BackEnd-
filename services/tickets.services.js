@@ -207,7 +207,7 @@ exports.updateTicket= async (sentId, updateInfo, userInfo) => {
             } //make user as asingnee
             else {
                 return {
-                    error: "Invalid assigned to email"
+                    error: "Assigned to invalid email"
                 }
            
         } 
