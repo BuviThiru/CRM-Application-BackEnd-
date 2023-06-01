@@ -255,7 +255,7 @@ try {
         let myTickets = []
         for(const id of data.ticketsAssigned){
             let ticket = await Ticket.find({_id:id})
-            myTickets.push(ticket)
+            myTickets.push(ticket[0])
         }
         return myTickets
     }
@@ -272,7 +272,7 @@ exports.getAllMyCreatedTicketSer = async (data)=>{
             let myTickets = []
             for(const id of data.ticketsCreated){
                 let ticket = await Ticket.find({_id:id})
-                myTickets.push(ticket)
+                myTickets.push(ticket[0])
             }
             return myTickets
         }

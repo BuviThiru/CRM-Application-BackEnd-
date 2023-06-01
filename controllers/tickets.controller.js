@@ -44,6 +44,7 @@ exports.getTicketById = async (req, res) => {
 exports.getAllTickets = async (req, res) => {
     try {
         const tickets = await getAllTicketsSer();
+       
         if (!tickets) {
             return res.status(401).send({
                 Error: "Tickets not found"
@@ -85,11 +86,13 @@ exports.getTicketsbyStatus = async (req, res) => {
 exports.getTicketsAssignedToUser = async(req,res)=>{
     try{
       const tickets = await getTicketsAssignedToUserSer(req.user)
+    
       if(tickets.error){
         return res.status(500).send({
             Result: tickets.error
         })
       }else{
+
         return res.status(200).send({
             Result : tickets,
         })  } 
@@ -189,6 +192,7 @@ exports.getAllMyAssignedTickets=async(req,res)=>{
 exports.getAllMyCreatedTickets = async(req,res)=> {
     try {
         const myTickets = await getAllMyCreatedTicketSer(req.user)
+       
         if(!myTickets || myTickets.error){
             return res.status(401).send({
                 result : "Unable to fech the assigned Tickects",
