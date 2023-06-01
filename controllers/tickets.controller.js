@@ -1,4 +1,4 @@
-const { createTicket, getTicketByGivenId,updateTicketById, getAllTicketsSer, getTicketsbyStatusSer,getTicketsAssignedToUserSer,getTicketsCreatedByUserSer,updateTicket} = require('../services/tickets.services');
+const { createTicket, getTicketByGivenId,updateTicketById, getAllTicketsSer, getTicketsbyStatusSer,getTicketsAssignedToUserSer,getAllMyCreatedTicketSer,getTicketsCreatedByUserSer,updateTicket,getAllMyAssignedTicketSer} = require('../services/tickets.services');
 
 
 exports.createTicket = async (req, res) => {//req.body has ticket's data, req.user
@@ -159,6 +159,46 @@ exports.updateTicket = async(req,res)=>{
         })
 
     }catch(err){
+        console.log(err);
+        return res.status(500).send({
+            Result : err.message
+        })
+    }
+}
+
+exports.getAllMyAssignedTickets=async(req,res)=>{
+    try {
+        const myTickets = await getAllMyAssignedTicketSer(req.user)
+        if(!myTickets || myTickets.error){
+            return res.status(401).send({
+                result : "Unable to fech the assigned Tickects",
+                error : myTickets.error
+            })
+        }
+        return res.status(200).send({
+            result : myTickets
+        })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({
+            Result : err.message
+        })
+    }
+}
+
+exports.getAllMyCreatedTickets = async(req,res)=> {
+    try {
+        const myTickets = await getAllMyCreatedTicketSer(req.user)
+        if(!myTickets || myTickets.error){
+            return res.status(401).send({
+                result : "Unable to fech the assigned Tickects",
+                error : myTickets.error
+            })
+        }
+        return res.status(200).send({
+            result : myTickets
+        })
+    } catch (err) {
         console.log(err);
         return res.status(500).send({
             Result : err.message
