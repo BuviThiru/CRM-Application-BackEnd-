@@ -250,6 +250,7 @@ exports.updateTicket= async (sentId, updateInfo, userInfo) => {
 exports.getAllMyAssignedTicketSer = async (data)=>{  
 try {
     const user = await User.find({_id:data.id})
+    console.log(user)
     if(!user) return {error : "Invalid User"}
     else {
         let myTickets = []
@@ -267,6 +268,7 @@ try {
 exports.getAllMyCreatedTicketSer = async (data)=>{  
     try {
         const user = await User.find({_id:data.id})
+        console.log(user)
         if(!user) return {error : "Invalid User"}
         else {
             let myTickets = []

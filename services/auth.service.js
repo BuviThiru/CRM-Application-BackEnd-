@@ -43,7 +43,7 @@ try{
      response.data = {
         Result : "User authenticated",
         token: token,
-        user : {name:userFromDb.name,email:userFromDb.email,userType:userFromDb.userType}
+        user : {name:userFromDb.name,email:userFromDb.email,userType:userFromDb.userType,_id:userFromDb._id}
      }}
     }  
  return response;
