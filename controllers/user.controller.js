@@ -47,11 +47,12 @@ exports.updateUserType = async(req,res)=>{
  }
 } 
 
-exports.updateUser= async(req,res)=>{
+exports.updateUser= async(req,res)=>{    
     try{
-        const updatedUser = await updateUser(req.body)
+        const user = await updateUser(req.body,req.self)     
         res.status(201).send({
-            message : updatedUser
+            message : user.user,
+            token : user.token
         })
        }catch(err){
         console.log(err)

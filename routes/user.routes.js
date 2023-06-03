@@ -9,7 +9,7 @@ const routes = (app) =>{
     app.get("/crmapp/api/v1/getUserByEmail/:email", isAuthenticated, getUserByEmail);
     app.get("/crmapp/api/v1/getUserById/:id", isAuthenticated, isAdminOrSelf, getUserById);
     app.patch("/crmapp/api/v1/user/updateUserType",isAuthenticated,isAdmin,updateUserType)
-    app.patch("/crmapp/api/v1/user/updateUser",isAuthenticated,isAdmin,updateUser)
+    app.patch("/crmapp/api/v1/user/updateUser/:id",isAuthenticated,isAdminOrSelf,updateUser)
  
 }
 module.exports = routes;

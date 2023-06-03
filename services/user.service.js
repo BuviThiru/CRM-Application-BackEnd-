@@ -1,6 +1,8 @@
 const User = require('../models/user.model')
 const userType = require('../constants/userType')
 const Ticket = require('../models/ticket.model')
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
 
 
 const getUserByEmail = async(emailData) =>{
@@ -112,8 +114,9 @@ const isValidUser = async(emailSent)=>{
         return err.message;
        }
  }
-const updateUser = async(data)=>{
-    
+const updateUser = async(data,self)=>{
+    let response ={}
+  
     try{     
     
         let newUser = {
@@ -122,14 +125,13 @@ const updateUser = async(data)=>{
             userType :data.userType,
             userStatus : data.userStatus
         }            
-        await User.findOneAndUpdate({_id:data.id},{...newUser})
-     
-        
-        const user = await User.findOne({email:data.email}) 
+        await User.findOneAndUpdate({_id:data.id},{...newUser}) 
+        if(self) { const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY); response.token = token }           
+        const user = await User.findOne({_id:data.id}) 
         console.log(user,data.id)
-        return  user; 
-
+        response.user =  user; 
        
+        return response;   
        
         
     }catch(err){

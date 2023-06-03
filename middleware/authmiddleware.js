@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const {getUserByEmail} = require('../services/user.service')
 const {verifytoken} = require('../services/auth.service')
+require('dotenv').config();
 
 
 exports.isAuthenticated = async(req,res,next)=>{
@@ -11,8 +12,9 @@ exports.isAuthenticated = async(req,res,next)=>{
     if(!verifiedToken || verifiedToken === "invalid signature") return res.status(401).send({
         message : "Token invalid"
     })
+    console.log(verifiedToken.email,req.body)
    const user = await getUserByEmail(verifiedToken.email)
-//    console.log(user)
+   console.log(user)
    if(!user){
     return res.status(401).send({
         message: "email is invalid"
@@ -43,12 +45,14 @@ exports.isAdminOrEngineer = async(req,res,next) =>{
 }
 
 exports.isAdminOrSelf = async(req,res,next) =>{
+    console.log("isADMINORSELF")
     if(!req.user) {
         return res.status(401).send({Message:"User not found"})
     }
     if(req.user.userType !== "Admin" && req.user.id !== req.params.id ){
         return res.status(401).send({Message:"User doesn't have required permission"})
     }
+    req.self = true
     next();
 }
  
