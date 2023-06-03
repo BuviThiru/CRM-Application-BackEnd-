@@ -6,18 +6,20 @@ exports.createTicket = async (req, res) => {//req.body has ticket's data, req.us
         const response = await createTicket(req.body, req.user)
         if (response.error) {
             res.status(401).send({
-                message: response.error
+                error: response.error
             })
         } else {
+        
             res.status(200).send({
-                message: response
+                message: response,
+                success : "Sucessfully created a new ticket"
+                
             })
         }
 
     } catch (err) {
-        console.log(error)
         res.status(401).send({
-            message: err.message,
+            error: err
         })
     }
 }

@@ -12,9 +12,9 @@ exports.isAuthenticated = async(req,res,next)=>{
     if(!verifiedToken || verifiedToken === "invalid signature") return res.status(401).send({
         message : "Token invalid"
     })
-    console.log(verifiedToken.email,req.body)
+  
    const user = await getUserByEmail(verifiedToken.email)
-   console.log(user)
+
    if(!user){
     return res.status(401).send({
         message: "email is invalid"

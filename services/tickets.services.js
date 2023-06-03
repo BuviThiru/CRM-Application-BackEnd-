@@ -4,11 +4,10 @@ const { updatedTicketCreatedArray, updateAssignedToArray, isValidUser } = requir
 const {sendNotificationMail} = require('../utils/notificationService.connect')
 exports.createTicket = async (data, user) => {
     try {
-
         const validateAssignedTo = data.assignedTo ? await isValidUser(data.assignedTo) : true;
-
-        if (validateAssignedTo.error) {
-            return { error: "Assigned To is not a valid user" }
+       
+        if (validateAssignedTo.error || !validateAssignedTo) {
+            return { error: "Assigned To is an Invalid Email Id" }
         }
         const newTicket = {
             title: data.title,
@@ -22,7 +21,7 @@ exports.createTicket = async (data, user) => {
         }
 
         const ticket = await Ticket.create(newTicket);
-
+        console.log(">>>>>>>>>>>>>>>>>>>>>>",ticket)
         if (ticket) {
             //store the tickets created in user model
             const createdTicket = await updatedTicketCreatedArray(user.email, ticket._id);
@@ -58,7 +57,7 @@ exports.createTicket = async (data, user) => {
     }
     catch (err) {
         console.log(err);
-        return err.message;
+        return {error :err.message};
     }
 
 }

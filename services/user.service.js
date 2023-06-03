@@ -21,13 +21,14 @@ const getAllUser = async()=>{
 }
 
 const isValidUser = async(emailSent)=>{
-    console.log("EmailSent",emailSent)
+  
     try{
         const user = await User.findOne({email:emailSent});
-      
+        console.log(user,emailSent)      
         if(user) return true
-        else false
+        else  return false
     }catch(err){
+        console.log(err)
         return err;
     }
 }
@@ -123,7 +124,8 @@ const updateUser = async(data,self)=>{
             name: data.name,
             email:data.email,
             userType :data.userType,
-            userStatus : data.userStatus
+            userStatus : data.userStatus,
+            updatedAt : Date.now()
         }            
         await User.findOneAndUpdate({_id:data.id},{...newUser}) 
         if(self) { const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY); response.token = token }           
