@@ -267,7 +267,7 @@ try {
 exports.getAllMyCreatedTicketSer = async (data)=>{  
     try {
         const user = await User.find({_id:data.id})
-        console.log(user)
+  
         if(!user) return {error : "Invalid User"}
         else {
             let myTickets = []
@@ -281,3 +281,16 @@ exports.getAllMyCreatedTicketSer = async (data)=>{
         console.log(error)
         return {error : error}
     }}
+exports.getAllTicketsByClientSer = async(data) => {
+try{
+const response = Ticket.find({clientName:data})
+if(!response) return {error : "Mismatch with the client name/No  tickets found"}
+else {
+    return {tickets: response}
+}
+
+}catch(error){
+    console.log(error)
+    return {error : error}
+}
+}

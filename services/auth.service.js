@@ -17,6 +17,7 @@ try {
         password : data.password,
         userType : data.userType,
         userStatus:data.userStatus,
+        clientName : data.clientName
     }
     const createUser = await User.create(newUser);
     response.user = createUser; 
@@ -43,7 +44,7 @@ try{
      response.data = {
         Result : "User authenticated",
         token: token,
-        user : {name:userFromDb.name,email:userFromDb.email,userType:userFromDb.userType,_id:userFromDb._id}
+        user : {name:userFromDb.name,email:userFromDb.email,userType:userFromDb.userType,_id:userFromDb._id,clientName : userFromDb.clientName}
      }}
     }  
  return response;
@@ -60,8 +61,7 @@ const verifytoken = (tokenSent)=>{
         return isverified;
 
     }catch(err){
-        console.log(err)
-   
+        console.log(err)   
     }
 }
 module.exports = {signUp,signIn,verifytoken}

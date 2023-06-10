@@ -1,4 +1,4 @@
-const {getAllUser,getUserByEmail,getUserById,updateUserType,updateUser} = require('../services/user.service')
+const {getAllUser,getUserByEmail,getUserById,updateUserType,updateUser,deleteUserSer} = require('../services/user.service')
 
 exports.allUsers = async(req,res)=>{
     try{
@@ -57,4 +57,22 @@ exports.updateUser= async(req,res)=>{
        }catch(err){
         console.log(err)
      }
+}
+
+exports .deleteUser = async(req,res)=>{
+    try{
+        const userToDelete = await deleteUserSer(req.params.id)      
+        if(!userToDelete){
+            res.status(401).send({
+                message : "USer deletion unsuccessful"
+            })         
+        }
+        else{
+            res.status(204).send({
+                message : "User Successfully deleted"
+            })
+        }
+    }catch(err){
+        console.log(err)
+    }
 }

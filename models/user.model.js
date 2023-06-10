@@ -22,6 +22,10 @@ const userSchema= new Schema({
         match:/\S+@\S+\.\S+/
 
     },
+    clientName : {
+        type :String,
+        required: true,
+    },
     createdAt:{
         type:Date,
         default:Date.now, //no need of calling..as default will call the function mapped to it

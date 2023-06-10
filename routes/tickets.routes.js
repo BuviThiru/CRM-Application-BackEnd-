@@ -1,4 +1,4 @@
-const {createTicket,getTicketById,getAllTickets,getTicketsbyStatus,getTicketsAssignedToUser,getTicketsCreatedByUser,getAllMyCreatedTickets, updateTicketById,updateTicket,getAllMyAssignedTickets} = require('../controllers/tickets.controller');
+const {createTicket,getTicketById,getAllTickets,getTicketsbyStatus,getTicketsAssignedToUser,getTicketsCreatedByUser,getAllMyCreatedTickets,getAllTicketsByClient, updateTicketById,updateTicket,getAllMyAssignedTickets} = require('../controllers/tickets.controller');
 const {isAuthenticated, isAdmin,isAdminOrEngineer} = require('../middleware/authmiddleware');
 
 
@@ -13,6 +13,7 @@ const routes = (app)=>{
   app.patch("/crmapp/api/v1/tickets/updateTicket/:id", isAuthenticated,isAdminOrEngineer, updateTicket);
   app.get("/crmapp/api/v1/tickets/getMyAssignedtickets",isAuthenticated,getAllMyAssignedTickets); 
   app.get("/crmapp/api/v1/tickets/getMyCreatedtickets",isAuthenticated,getAllMyCreatedTickets); 
+  app.get("/crmapp/api/v1/tickets/getByClient",isAuthenticated, getAllTicketsByClient)
 
 }
  

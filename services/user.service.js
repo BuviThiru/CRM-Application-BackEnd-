@@ -125,6 +125,7 @@ const updateUser = async(data,self)=>{
             email:data.email,
             userType :data.userType,
             userStatus : data.userStatus,
+            clientName: data.clientName,
             updatedAt : Date.now()
         }            
         await User.findOneAndUpdate({_id:data.id},{...newUser}) 
@@ -142,5 +143,14 @@ const updateUser = async(data,self)=>{
     }   
 
 }
+const deleteUserSer = async(idSent)=>{
+   try{
+    const user = await User.findByIdAndDelete({_id:idSent})
+    return user
+    // console.log(user)
+   }catch(error){
+    console.log(error)
+   }
+}
  
-module.exports = {updateUser,getUserByEmail,getAllUser,getUserById,updateUserType,isValidUser, updatedTicketCreatedArray,updateAssignedToArray}
+module.exports = {updateUser,getUserByEmail,getAllUser,getUserById,updateUserType,isValidUser, updatedTicketCreatedArray,updateAssignedToArray,deleteUserSer}

@@ -211,3 +211,16 @@ exports.getAllMyCreatedTickets = async(req,res)=> {
         })
     }
 }
+
+exports.getAllTicketsByClient=async(req,res)=>{
+try {
+    const tickets = await getAllTicketsByClientSer(req.user.clientName)
+    
+} catch (error) {
+    console.log(error)
+    return res.status(500).send({
+        Result : err.message
+    })
+    
+}
+}
