@@ -129,7 +129,7 @@ const updateUser = async(data,self)=>{
             updatedAt : Date.now()
         }  
         if(newUser.userType === "Engineer" || newUser.userType ==="Admin"){
-            newUser.clientName === "Sharil Pvt Ltd"
+            newUser.clientName = "Sharil Pvt Ltd"
         }          
         await User.findOneAndUpdate({_id:data.id},{...newUser}) 
         if(self) { const token = jwt.sign({email:data.email},process.env.JWT_SECTRETKEY); response.token = token }           
