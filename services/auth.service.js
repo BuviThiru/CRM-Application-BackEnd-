@@ -19,6 +19,9 @@ try {
         userStatus:data.userStatus,
         clientName : data.clientName
     }
+    if(newUser.userType === "Engineer" || newUser.userType ==="Admin"){
+        newUser.clientName === "Sharil Pvt Ltd"
+    }
     const createUser = await User.create(newUser);
     response.user = createUser; 
    
