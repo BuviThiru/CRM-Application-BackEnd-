@@ -79,10 +79,13 @@ exports.getTicketByGivenId = async (idSent) => {
     }
 }
 
-exports.getAllTicketsSer = async (req, res) => {
-    let response ={}
+exports.getAllTicketsSer = async (user) => {
+    let response ={},tickets
     try {
-        let tickets = await Ticket.find();
+        if(user.userType ==="Customer"){
+          tickets =   await Ticket.find({clientName:user.clientName})
+        }
+         else tickets = await Ticket.find();
         if (!tickets || tickets.error) {
           response.error = tickets.error
         } else response.tickets = tickets
@@ -281,16 +284,3 @@ exports.getAllMyCreatedTicketSer = async (data)=>{
         console.log(error)
         return {error : error}
     }}
-exports.getAllTicketsByClientSer = async(data) => {
-try{
-const response = Ticket.find({clientName:data})
-if(!response) return {error : "Mismatch with the client name/No  tickets found"}
-else {
-    return {tickets: response}
-}
-
-}catch(error){
-    console.log(error)
-    return {error : error}
-}
-}
