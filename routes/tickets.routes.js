@@ -10,7 +10,7 @@ const routes = (app)=>{
   app.get("/crmapp/api/v1/tickets/getticketsAssigned", isAuthenticated, getTicketsAssignedToUser)
   app.get("/crmapp/api/v1/tickets/getticketsCreated", isAuthenticated, getTicketsCreatedByUser);
   app.patch("/crmapp/api/v1/tickets/updateTicketById/:id", isAuthenticated, updateTicketById);
-  app.patch("/crmapp/api/v1/tickets/updateTicket/:id", isAuthenticated,isAdminOrEngineer, updateTicket);
+  app.patch("/crmapp/api/v1/tickets/updateTicket/:id", isAuthenticated, updateTicket);
   app.get("/crmapp/api/v1/tickets/getMyAssignedtickets",isAuthenticated,getAllMyAssignedTickets); 
   app.get("/crmapp/api/v1/tickets/getMyCreatedtickets",isAuthenticated,getAllMyCreatedTickets); 
 
